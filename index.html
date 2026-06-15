@@ -3,486 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YES DESIGN & CONSTRUCTION | 프리미엄 인테리어</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
+    <title>YES DESIGN | 프리미엄 인테리어</title>
     <style>
-        /* 기본 스타일 및 세련된 폰트 적용 */
+        /* 기본 스타일 초기화 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Noto Sans KR', 'Montserrat', sans-serif; 
-            line-height: 1.7; 
-            color: #222; 
-            background-color: #ffffff; 
-            -webkit-font-smoothing: antialiased;
-        }
+        body { font-family: 'Malgun Gothic', sans-serif; line-height: 1.6; color: #333; background-color: #fff; transition: background 0.3s; }
         a { text-decoration: none; color: inherit; }
 
         /* 편집 모드 스타일 */
         .edit-mode [contenteditable="true"] {
-            outline: 2px dashed #E8651E !important;
-            background-color: rgba(232, 101, 30, 0.08) !important;
-            padding: 4px 8px;
+            outline: 2px dashed #c5a880 !important;
+            background-color: rgba(197, 168, 128, 0.1) !important;
+            padding: 2px 5px;
             border-radius: 4px;
         }
 
-        /* 헤더 모던 엣지 디자인 */
-        header { 
-            position: fixed; 
-            top: 0; 
-            width: 100%; 
-            background-color: rgba(255, 255, 255, 0.98); 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 1.2rem 8%; 
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02); 
-            z-index: 1000;
-            backdrop-filter: blur(5px);
-            border-bottom: 1px solid #f1f1f1;
-        }
-        .logo { display: flex; align-items: center; cursor: pointer; }
-        .logo img { height: 45px; width: auto; object-fit: contain; }
-        
+        /* 네비게이션 바 */
+        header { position: fixed; top: 0; width: 100%; background-color: rgba(255, 255, 255, 0.95); display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 5%; box-shadow: 0 1px 5px rgba(0,0,0,0.1); z-index: 1000; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--main-bg-color, #1a2a3a); letter-spacing: 2px; }
         nav { display: flex; align-items: center; }
-        nav .menu-item { 
-            margin-left: 3rem; 
-            font-weight: 500; 
-            font-size: 0.95rem;
-            color: #444; 
-            letter-spacing: -0.5px;
-            transition: all 0.3s ease; 
-            cursor: pointer; 
-            position: relative;
-        }
-        nav .menu-item::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -6px;
-            left: 0;
-            background-color: #E8651E;
-            transition: width 0.3s ease;
-        }
-        nav .menu-item:hover, nav .menu-item.active { color: #E8651E; }
-        nav .menu-item:hover::after, nav .menu-item.active::after { width: 100%; }
+        nav .menu-item { margin-left: 2rem; font-weight: 600; color: #555; transition: color 0.3s; cursor: pointer; }
+        nav .menu-item:hover { color: var(--point-color, #c5a880); }
+        .admin-btn { margin-left: 2rem; color: #777; border: 1px solid #ccc; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; text-align: center; }
+        .admin-btn:hover { background-color: #f4f4f4; }
 
-        /* 페이지 전환을 위한 섹션 제어 스타일 */
-        .page-section {
-            display: none; 
-            animation: fadeIn 0.4s ease-in-out forwards;
-        }
-        .page-section.active-page {
-            display: block; 
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* 메인 히어로 섹션 */
+        .hero { height: 60vh; background-color: var(--main-bg-color, #1a2a3a); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; padding: 0 1rem; margin-top: 70px; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; letter-spacing: 1px; line-height: 1.2; }
+        .hero p { font-size: 1.2rem; color: #ddd; }
 
-        /* 하이엔드 무드의 감성 히어로 섹션 */
-        .hero { 
-            height: calc(100vh - 70px); 
-            background: linear-gradient(135deg, #1f1f1f 0%, #0d0d0d 100%);
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            text-align: center; 
-            color: white; 
-            padding: 0 2rem; 
-            margin-top: 70px;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -20%;
-            right: -10%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(232,101,30,0.15) 0%, rgba(0,0,0,0) 70%);
-            z-index: 1;
-        }
-        .hero h1 { 
-            font-size: 3.8rem; 
-            font-weight: 700;
-            margin-bottom: 1.5rem; 
-            letter-spacing: -1px; 
-            line-height: 1.3;
-            z-index: 2;
-        }
-        .hero p { 
-            font-size: 1.3rem; 
-            color: #aaa; 
-            font-weight: 300;
-            letter-spacing: -0.5px;
-            z-index: 2;
-        }
+        /* 공통 섹션 스타일 */
+        section { padding: 5rem 10%; text-align: center; }
+        section h2 { font-size: 2.2rem; color: var(--main-bg-color, #1a2a3a); margin-bottom: 1rem; position: relative; padding-bottom: 10px; }
+        section h2::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 50px; height: 2px; background-color: var(--point-color, #c5a880); }
+        .section-desc { color: #777; margin-bottom: 3rem; }
 
-        /* 공통 내지 섹션 레이아웃 */
-        .content-container { padding: 8rem 12% 6rem 12%; text-align: center; margin-top: 70px; min-height: 80vh; }
-        .content-container h2 { 
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.6rem; 
-            font-weight: 700;
-            color: #111; 
-            margin-bottom: 0.8rem; 
-            letter-spacing: 2px;
-        }
-        .section-desc { 
-            color: #888; 
-            font-size: 1rem;
-            font-weight: 300;
-            margin-bottom: 4.5rem; 
-            letter-spacing: -0.5px;
-        }
+        /* 회사 소개 */
+        .about-content { max-width: 800px; margin: 0 auto; font-size: 1.1rem; color: #555; line-height: 1.8; text-align: justify; word-break: keep-all; }
 
-        /* [회사소개 창] 세분화 레이아웃 */
-        .about-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; max-width: 900px; margin: 0 auto; text-align: left; }
-        .about-block { padding: 2.5rem; background-color: #fafafa; border-left: 3px solid #E8651E; }
-        .about-block h3 { font-size: 1.4rem; font-weight: 600; color: #111; margin-bottom: 1rem; font-family: 'Noto Sans KR'; }
-        .about-block .text-content { font-size: 1.05rem; color: #444; line-height: 2; font-weight: 300; word-break: keep-all; }
-        
-        /* [포트폴리오 창] 인테리어 매거진 레이아웃 */
-        .portfolio-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); 
-            gap: 2.5rem; 
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .portfolio-item { 
-            background-color: #fff; 
-            border: 1px solid #eee;
-            overflow: hidden; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
-        }
-        .portfolio-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-        }
-        .portfolio-img-container { width: 100%; height: 260px; position: relative; background-color: #eaeaea; cursor: pointer; }
-        .portfolio-img { width: 100%; height: 100%; object-fit: cover; }
-        .portfolio-img-empty { width: 100%; height: 100%; background: linear-gradient(45deg, #E8651E, #ff8443); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 500; font-size: 1.05rem; }
-        .img-count-badge { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.7); color: #fff; padding: 4px 10px; font-size: 0.8rem; font-weight: 600; font-family: 'Montserrat'; }
-        
-        .portfolio-info { padding: 2rem 1.5rem; text-align: left; }
-        .portfolio-info h3 { font-size: 1.3rem; font-weight: 600; color: #111; margin-bottom: 0.6rem; }
-        .portfolio-info p { color: #666; font-size: 0.95rem; font-weight: 300; line-height: 1.5; }
-        .photo-upload-label { display: inline-block; background: #333; color: #fff; padding: 6px 12px; font-size: 0.8rem; margin-top: 10px; cursor: pointer; font-weight: 500; }
-        .photo-upload-label:hover { background: #E8651E; }
+        /* 포트폴리오 섹션 */
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .portfolio-item { background-color: #f9f9f9; border: 1px solid #eee; overflow: hidden; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .portfolio-img { width: 100%; height: 250px; background-color: #eaeaea; display: flex; align-items: center; justify-content: center; color: #888; font-weight: bold; font-size: 1.1rem; }
+        .portfolio-info { padding: 1.5rem; text-align: left; }
+        .portfolio-info h3 { font-size: 1.2rem; color: var(--main-bg-color, #1a2a3a); margin-bottom: 0.5rem; }
+        .portfolio-info p { color: #777; font-size: 0.9rem; }
 
-        /* [가로 이미지 슬라이더 라이트박스] */
-        .slider-lightbox { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index: 20000; justify-content: center; align-items: center; }
-        .slider-wrapper { position: relative; width: 85%; max-width: 1000px; display: flex; flex-direction: column; align-items: center; }
-        .slider-container { width: 100%; height: 60vh; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
-        .slider-container img { max-width: 100%; max-height: 100%; object-fit: contain; animation: fadeEffect 0.3s; }
-        @keyframes fadeEffect { from {opacity: 0.5;} to {opacity: 1;} }
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); color: white; border: none; font-size: 2.5rem; width: 60px; height: 60px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat'; transition: background 0.3s; z-index: 20002; }
-        .slider-btn:hover { background: rgba(255,255,255,0.3); color: #E8651E; }
-        .slider-btn.prev { left: -80px; }
-        .slider-btn.next { right: -80px; }
-        .slider-close { position: absolute; top: -50px; right: 0; color: white; font-size: 2rem; cursor: pointer; font-weight: 300; }
-        .slider-close:hover { color: #E8651E; }
-        .slider-indicator { color: #888; font-family: 'Montserrat'; margin-top: 15px; font-size: 1rem; }
-
-        /* [고객문의 창] */
-        .contact-container { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; max-width: 1100px; margin: 0 auto; text-align: left; }
-        .contact-info { display: flex; flex-direction: column; justify-content: flex-start; padding-top: 1rem; }
-        .contact-info p { margin-bottom: 1.8rem; font-size: 1.05rem; color: #555; border-bottom: 1px solid #e8e8e8; padding-bottom: 10px; }
-        .contact-info p strong { color: #111; display: inline-block; width: 100px; font-weight: 500; }
-        
-        .open-chat-wrapper { margin-top: 1rem; display: none; }
-        .open-chat-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 1rem; background-color: #FEE500; color: #191919; font-weight: 600; font-size: 1rem; border: none; cursor: pointer; transition: opacity 0.3s; }
-        .open-chat-btn:hover { opacity: 0.9; }
-
-        .contact-form { background: white; padding: 3rem 2.5rem; box-shadow: 0 15px 40px rgba(0,0,0,0.03); border: 1px solid #eee; }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.6rem; font-weight: 500; font-size: 0.9rem; color: #333; letter-spacing: -0.5px; }
-        .form-group input, .form-group textarea { width: 100%; padding: 0.9rem; border: 1px solid #ddd; font-size: 0.95rem; font-family: inherit; transition: border-color 0.3s; background-color: #fff; }
-        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #E8651E; }
-        .file-list-preview { font-size: 0.85rem; color: #E8651E; margin-top: 5px; font-weight: 500; }
-        
-        .submit-btn { width: 100%; padding: 1.1rem; background-color: #E8651E !important; color: white; border: none; font-size: 1.05rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; letter-spacing: 0.5px; }
-        .submit-btn:hover { background-color: #111 !important; }
+        /* 문의하기 폼 */
+        .contact { background-color: #f4f6f8; }
+        .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; max-width: 1000px; margin: 0 auto; text-align: left; }
+        .contact-info p { margin-bottom: 1rem; font-size: 1.1rem; }
+        .contact-form { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; color: var(--main-bg-color, #1a2a3a); }
+        .form-group input, .form-group textarea { width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
+        .submit-btn { width: 100%; padding: 1rem; background-color: var(--main-bg-color, #1a2a3a); color: white; border: none; border-radius: 4px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background 0.3s; }
+        .submit-btn:hover { background-color: var(--point-color, #c5a880); }
 
         /* 관리자 패널 */
-        .admin-panel { display: none; position: fixed; bottom: 20px; right: 20px; background: #fff; border: 2px solid #E8651E; padding: 1.5rem; border-radius: 8px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); z-index: 9999; max-width: 350px; font-size: 0.9rem; }
-        .admin-panel h3 { margin-bottom: 1rem; font-size: 1rem; color: #111; border-bottom: 2px solid #111; padding-bottom: 5px; }
-        .admin-panel-input { width: 100%; padding: 8px; margin-bottom: 12px; border: 1px solid #ccc; font-size: 0.85rem; }
+        .admin-panel { display: none; position: fixed; bottom: 20px; right: 20px; background: #fff; border: 3px solid var(--point-color, #c5a880); padding: 1.5rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 9999; max-width: 350px; width: calc(100% - 40px); }
+        .admin-panel h3 { margin-bottom: 1rem; font-size: 1.1rem; color: #1a2a3a; border-bottom: 2px solid #333; padding-bottom: 5px; }
+        .color-picker-group { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+        .color-picker-group label { font-size: 0.9rem; font-weight: bold; }
+        .color-picker-group input { cursor: pointer; width: 50px; height: 30px; border: none; }
         .admin-panel-btns { display: flex; gap: 10px; margin-top: 1rem; }
-        .btn-save { background-color: #2ec4b6; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer; flex: 1; font-weight: bold; text-align: center; }
-        .btn-download { background-color: #E8651E; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 8px; font-weight: bold; text-align: center; }
-        .btn-add-p { background-color: #333; color: white; padding: 8px; border: none; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 5px; font-size: 0.85rem; }
-        .btn-danger { background-color: #d9534f; color: white; padding: 6px 10px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem; margin-top: 10px; width: 100%; text-align: center; }
+        .btn-save { background-color: #2ec4b6; color: white; padding: 10px; border: none; border-radius: 6px; cursor: pointer; flex: 1; font-weight: bold; text-align: center; }
+        .btn-add-p { background-color: var(--main-bg-color, #1a2a3a); color: white; padding: 8px; border: none; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 5px; font-size: 0.85rem; }
+        .btn-danger { background-color: #d9534f; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem; margin-top: 10px; width: 100%; text-align: center; }
+        .btn-download { background-color: #E8651E; color: white; padding: 10px; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 8px; font-weight: bold; text-align: center; }
         
-        /* 모달창 */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
-        .modal-content { background: white; padding: 2.5rem; border-radius: 6px; width: 85%; max-width: 900px; max-height: 80vh; overflow-y: auto; text-align: left; }
-        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        th, td { padding: 12px; border: 1px solid #eee; text-align: left; font-size: 0.9rem; }
-        th { background-color: #E8651E; color: white; font-weight: 500; }
-        .btn-table-del { background-color: #d9534f; color: white; padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; }
-        .attached-img-preview { max-width: 80px; max-height: 80px; object-fit: cover; cursor: pointer; border: 1px solid #ddd; }
+        /* 모달창 반응형 스크롤 레이아웃 보완 */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; justify-content: center; align-items: center; padding: 10px; }
+        .modal-content { background: white; padding: 2rem; border-radius: 8px; width: 100%; max-width: 800px; max-height: 85vh; overflow-y: auto; text-align: left; }
+        .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 1rem; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; font-size: 0.9rem; }
+        th { background-color: #1a2a3a; color: white; }
+        .btn-table-del { background-color: #d9534f; color: white; padding: 3px 8px; border: none; border-radius: 4px; cursor: pointer; }
 
-        /* 푸터 사양 유지 */
-        footer { background-color: #111; color: #555; padding: 2.5rem 8%; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #222; }
-        .admin-btn-hidden { font-size: 0.75rem; color: #1c1c1c; cursor: pointer; user-select: none; transition: color 0.3s; }
-        .admin-btn-hidden:hover { color: #333; }
+        /* 푸터 */
+        footer { background-color: var(--main-bg-color, #1a2a3a); color: #888; text-align: center; padding: 2rem; font-size: 0.9rem; margin-top: 3rem; }
+
+        /* ==========================================
+           📱 모바일 및 태블릿 반응형 미디어 쿼리 세팅 
+        ========================================== */
+        @media (max-width: 768px) {
+            /* 헤더 메뉴 배치 변경 */
+            header { padding: 1rem; flex-direction: column; gap: 0.8rem; position: relative; }
+            nav { width: 100%; justify-content: center; flex-wrap: wrap; gap: 10px 0; }
+            nav .menu-item { margin-left: 1rem; margin-right: 1rem; font-size: 0.95rem; }
+            .admin-btn { margin-left: 0.5rem; padding: 4px 8px; font-size: 0.85rem; }
+
+            /* 메인 히어로 텍스트 축소 */
+            .hero { margin-top: 0; height: 50vh; padding: 0 1.5rem; }
+            .hero h1 { font-size: 1.9rem; }
+            .hero p { font-size: 1rem; }
+
+            /* 공통 섹션 패딩 축소 */
+            section { padding: 3.5rem 5%; }
+            section h2 { font-size: 1.7rem; }
+            .section-desc { margin-bottom: 2rem; font-size: 0.9rem; }
+            .about-content { font-size: 0.95rem; line-height: 1.7; }
+
+            /* 포트폴리오 그리드 1열 자동 확장 */
+            .portfolio-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .portfolio-img { height: 200px; }
+
+            /* 문의하기 영역 1단(세로배열)으로 자동 전환 */
+            .contact-container { grid-template-columns: 1fr; gap: 2rem; }
+            .contact-info p { font-size: 0.95rem; }
+            .contact-form { padding: 1.5rem; }
+            
+            .modal-content { padding: 1.5rem; }
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo" onclick="navigateTo('home')">
-            <img src="KakaoTalk_20260615_103725926.png" alt="YES DESIGN & CONSTRUCTION">
-        </div>
+        <div class="logo" id="text-logo" contenteditable="false">YES DESIGN</div>
         <nav>
-            <span class="menu-item" id="nav-about" onclick="navigateTo('about')">회사소개</span>
-            <span class="menu-item" id="nav-portfolio" onclick="navigateTo('portfolio')">포트폴리오</span>
-            <span class="menu-item" id="nav-contact" onclick="navigateTo('contact')">문의하기</span>
+            <span class="menu-item" id="menu1" onclick="location.href='#about'" contenteditable="false">회사소개</span>
+            <span class="menu-item" id="menu2" onclick="location.href='#portfolio'" contenteditable="false">포트폴리오</span>
+            <span class="menu-item" id="menu3" onclick="location.href='#contact'" contenteditable="false">문의하기</span>
+            <a class="admin-btn" id="admin-toggle-btn" onclick="toggleAdminMode()">관리자 편집모드 켜기</a>
         </nav>
     </header>
 
-    <section id="section-home" class="page-section active-page">
-        <div class="hero">
-            <h1 id="hero-title">공간에 가치를 더하다</h1>
-            <p id="hero-desc">YES DESIGN & CONSTRUCTION이 제안하는 프리미엄 인테리어 디자인</p>
+    <section class="hero">
+        <h1 id="hero-title" contenteditable="false">공간에 가치를 더하다</h1>
+        <p id="hero-desc" contenteditable="false">YES DESIGN이 제안하는 프리미엄 인테리어 디자인</p>
+    </section>
+
+    <section id="about">
+        <h2 id="about-title" contenteditable="false">ABOUT US</h2>
+        <p class="section-desc" id="about-sub" contenteditable="false">우리가 추구하는 가치를 소개합니다.</p>
+        <div class="about-content">
+            <p id="about-text" contenteditable="false">안녕하세요. YES DESIGN입니다. 저희는 트렌디함과 실용성을 겸비한 공간을 창조하는 인테리어 전문 기업입니다. 단순한 시공을 넘어, 그 공간에 머무는 사람들의 이야기와 행복을 담아내고자 노력합니다. 주거 공간부터 상업 공간까지 최고의 전문가들이 책임지고 디자인해 드립니다.</p>
         </div>
     </section>
 
-    <section id="section-about" class="page-section">
-        <div class="content-container">
-            <h2 id="about-title">ABOUT US</h2>
-            <p class="section-desc" id="about-sub">우리가 추구하는 하이엔드 가치를 소개합니다.</p>
-            
-            <div class="about-grid">
-                <div class="about-block">
-                    <h3>회사 설명</h3>
-                    <div class="text-content" id="about-text-desc">안녕하세요. YES DESIGN & CONSTRUCTION입니다. 저희는 트렌디함과 실용성을 겸비한 공간을 창조하는 인테리어 및 시공 전문 기업입니다. 단순한 시공을 넘어, 그 공간에 머무는 사람들의 이야기와 행복을 담아내고자 노력합니다. 주거 공간부터 상업 공간까지 최고의 전문가들이 책임지고 디자인해 드립니다.</div>
-                </div>
-                
-                <div class="about-block">
-                    <h3>회사 정보</h3>
-                    <div class="text-content" id="about-text-info">✔ 상호명 : YES DESIGN & CONSTRUCTION<br>✔ 대표번호 : 02-1234-5678<br>✔ 비즈니스 메일 : contact@yesdesign.com<br>✔ 상담 가능 시간 : 평일 09:00 ~ 18:00 (주말 및 공휴일 휴무)</div>
-                </div>
-
-                <div class="about-block">
-                    <h3>오시는 길</h3>
-                    <div class="text-content" id="about-text-map">🗺️ 서울시 강남구 테헤란로 123, 7층 스튜디오<br>(지하철 2호선 역삼역 3번 출구 도보 3분 거리)<br><br>* 상세 맵 링크 정보 및 현장 방문 상담은 사전 예약을 통해 맞춤형 동선으로 안내를 도와드립니다.</div>
-                </div>
+    <section id="portfolio">
+        <h2 id="port-title" contenteditable="false">PORTFOLIO</h2>
+        <p class="section-desc" id="port-sub" contenteditable="false">YES DESIGN의 최근 시공 사례입니다.</p>
+        <div class="portfolio-grid" id="portfolio-list">
             </div>
-        </div>
     </section>
 
-    <section id="section-portfolio" class="page-section">
-        <div class="content-container">
-            <h2 id="port-title">PORTFOLIO</h2>
-            <p class="section-desc" id="port-sub">YES DESIGN & CONSTRUCTION의 최근 현장 시공 아카이브입니다.</p>
-            <div class="portfolio-grid" id="portfolio-list">
-                </div>
-        </div>
-    </section>
-
-    <section id="section-contact" class="page-section">
-        <div class="content-container">
-            <h2 id="contact-title">CONTACT US</h2>
-            <p class="section-desc" id="contact-sub">상담 및 견적 문의를 남겨주시면 신속히 답변해 드리겠습니다.</p>
-            <div class="contact-container">
-                <div class="contact-info">
-                    <p><strong>상호명</strong> <span id="info-name">YES DESIGN & CONSTRUCTION</span></p>
-                    <p><strong>주소</strong> <span id="info-addr">서울시 강남구 테헤란로 123</span></p>
-                    <p><strong>연락처</strong> <span id="info-tel">02-1234-5678</span></p>
-                    <p><strong>이메일</strong> <span id="info-email">contact@yesdesign.com</span></p>
-                    
-                    <div class="open-chat-wrapper" id="openChatArea">
-                        <button class="open-chat-btn" onclick="openKakaoChat()">
-                            💬 실시간 카카오톡 오픈채팅 상담
-                        </button>
+    <section id="contact" class="contact">
+        <h2 id="contact-title" contenteditable="false">CONTACT US</h2>
+        <p class="section-desc" id="contact-sub" contenteditable="false">상담 및 견적 문의를 남겨주시면 신속히 답변해 드리겠습니다.</p>
+        <div class="contact-container">
+            <div class="contact-info">
+                <p><strong>상호명:</strong> <span id="info-name" contenteditable="false">YES DESIGN</span></p>
+                <p><strong>주소:</strong> <span id="info-addr" contenteditable="false">서울시 강남구 테헤란로 123</span></p>
+                <p><strong>전화번호:</strong> <span id="info-tel" contenteditable="false">02-1234-5678</span></p>
+                <p><strong>이메일:</strong> <span id="info-email" contenteditable="false">contact@yesdesign.com</span></p>
+            </div>
+            <div class="contact-form">
+                <form id="inquiryForm" onsubmit="submitInquiry(event)">
+                    <div class="form-group">
+                        <label>고객명/회사명</label>
+                        <input type="text" id="clientName" required placeholder="이름을 입력하세요">
                     </div>
-                </div>
-                <div class="contact-form">
-                    <form id="inquiryForm" onsubmit="submitInquiry(event)">
-                        <div class="form-group">
-                            <label>고객명 / 회사명</label>
-                            <input type="text" id="clientName" required placeholder="성함을 입력하세요">
-                        </div>
-                        <div class="form-group">
-                            <label>연락처</label>
-                            <input type="tel" id="clientPhone" required placeholder="010-0000-0000">
-                        </div>
-                        <div class="form-group">
-                            <label>문의 및 요청내용</label>
-                            <textarea id="clientMessage" rows="5" required placeholder="원하시는 시공 위치, 평수, 예산 등을 자유롭게 적어주세요."></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>도면 또는 현장 사진 첨부 (선택)</label>
-                            <input type="file" id="clientFile" accept="image/*" onchange="handleClientFile(event)">
-                            <div class="file-list-preview" id="clientFilePreview"></div>
-                        </div>
-                        <button type="submit" class="submit-btn">상담 신청하기</button>
-                    </form>
-                </div>
+                    <div class="form-group">
+                        <label>연락처</label>
+                        <input type="tel" id="clientPhone" required placeholder="010-0000-0000">
+                    </div>
+                    <div class="form-group">
+                        <label>문의 및 요청내용</label>
+                        <textarea id="clientMessage" rows="5" required placeholder="원하시는 시공 평수, 예산, 스타일 등을 적어주세요."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">상담 신청하기</button>
+                </form>
             </div>
         </div>
     </section>
 
     <div class="admin-panel" id="adminPanel">
-        <h3>🛠️ 디자인 데이터 빌더</h3>
-        <div style="margin-bottom: 12px;">
-            <label style="font-weight: bold; display:block; margin-bottom:4px;">💬 오픈채팅방 링크 설정</label>
-            <input type="text" id="kakaoUrlInput" class="admin-panel-input" placeholder="https://open.kakao.com/...">
+        <h3>🛠️ 실시간 디자인 빌더</h3>
+        <div class="color-picker-group">
+            <label>메인 테마색</label>
+            <input type="color" id="mainColorPicker" oninput="applyColors()">
+        </div>
+        <div class="color-picker-group">
+            <label>포인트 강조색</label>
+            <input type="color" id="pointColorPicker" oninput="applyColors()">
         </div>
         <hr style="margin: 10px 0; border: 0; border-top: 1px solid #eee;">
         <button class="btn-add-p" onclick="addNewPortfolioCard()">＋ 새 포트폴리오 카드 추가</button>
         <button class="btn-add-p" style="background-color:#555;" onclick="openInquiryModal()">📩 고객 문의내역 보기</button>
         <div class="admin-panel-btns">
             <button class="btn-save" onclick="saveAllChanges()">💾 변경사항 최종 저장</button>
-            <button class="btn-save" style="background-color:#d9534f;" onclick="toggleAdminMode()">종료</button>
         </div>
         <button class="btn-download" onclick="downloadUpdatedHtml()">📥 서버 반영용 파일 다운로드</button>
     </div>
 
-    <div class="slider-lightbox" id="sliderLightbox">
-        <div class="slider-wrapper">
-            <span class="slider-close" onclick="closeSlider()">✕ Close</span>
-            <button class="slider-btn prev" onclick="moveSlider(-1)">‹</button>
-            <div class="slider-container">
-                <img id="sliderImg" src="" alt="시공 사례 원본 사진">
-            </div>
-            <button class="slider-btn next" onclick="moveSlider(1)">›</button>
-            <div class="slider-indicator" id="sliderIndicator">1 / 1</div>
-        </div>
-    </div>
-
     <div class="modal" id="inquiryModal">
         <div class="modal-content">
-            <h3>📩 접수된 고객 문의 리스트 (도면 확인 가능)</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>날짜</th>
-                        <th>고객명</th>
-                        <th>연락처</th>
-                        <th>문의 및 도면자료</th>
-                        <th>관리</th>
-                    </tr>
-                </thead>
-                <tbody id="modal-inquiry-list"></tbody>
-            </table>
+            <h3>📩 접수된 고객 문의 리스트</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>날짜</th>
+                            <th>고객명</th>
+                            <th>연락처</th>
+                            <th>문의 내용</th>
+                            <th>관리</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modal-inquiry-list"></tbody>
+                </table>
+            </div>
             <button class="submit-btn" style="margin-top: 20px; background-color: #555;" onclick="closeInquiryModal()">닫기</button>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 <span id="footer-name">YES DESIGN & CONSTRUCTION</span>. All rights reserved.</p>
-        <div class="admin-btn-hidden" onclick="checkAdminPassword()">●</div>
+        <p>&copy; 2026 <span id="footer-name" contenteditable="false">YES DESIGN</span>. All rights reserved.</p>
     </footer>
 
     <script>
         let isEditMode = false;
-        let currentSliderImages = [];
-        let currentSliderIndex = 0;
-        let tempClientFileBase64 = "";
 
         const defaultTexts = {
-            "hero-title": "공간에 가치를 더하다", "hero-desc": "YES DESIGN & CONSTRUCTION이 제안하는 프리미엄 인테리어 디자인",
-            "about-title": "ABOUT US", "about-sub": "우리가 추구하는 하이엔드 가치를 소개합니다.",
-            "about-text-desc": "안녕하세요. YES DESIGN & CONSTRUCTION입니다. 저희는 트렌디함과 실용성을 겸비한 공간을 창조하는 인테리어 및 시공 전문 기업입니다.",
-            "about-text-info": "✔ 상호명 : YES DESIGN & CONSTRUCTION\n✔ 대표번호 : 02-1234-5678\n✔ 비즈니스 메일 : contact@yesdesign.com\n✔ 상담 가능 시간 : 평일 09:00 ~ 18:00 (주말 및 공휴일 휴무)",
-            "about-text-map": "🗺️ 서울시 강남구 테헤란로 123, 7층 스튜디오\n(지하철 2호선 역삼역 3번 출구 도보 3분 거리)\n\n* 상세 맵 링크 정보 및 현장 방문 상담은 사전 예약을 통해 맞춤형 동선으로 안내를 도와드립니다.",
-            "port-title": "PORTFOLIO", "port-sub": "YES DESIGN & CONSTRUCTION의 최근 현장 시공 아카이브입니다.",
+            "text-logo": "YES DESIGN", "menu1": "회사소개", "menu2": "포트폴리오", "menu3": "문의하기",
+            "hero-title": "공간에 가치를 더하다", "hero-desc": "YES DESIGN이 제안하는 프리미엄 인테리어 디자인",
+            "about-title": "ABOUT US", "about-sub": "우리가 추구하는 가치를 소개합니다.",
+            "about-text": "안녕하세요. YES DESIGN입니다. 저희는 트렌디함과 실용성을 겸비한 공간을 창조하는 인테리어 전문 기업입니다.",
+            "port-title": "PORTFOLIO", "port-sub": "YES DESIGN의 최근 시공 사례입니다.",
             "contact-title": "CONTACT US", "contact-sub": "상담 및 견적 문의를 남겨주시면 신속히 답변해 드리겠습니다.",
-            "info-name": "YES DESIGN & CONSTRUCTION", "info-addr": "서울시 강남구 테헤란로 123", "info-tel": "02-1234-5678", "info-email": "contact@yesdesign.com",
-            "footer-name": "YES DESIGN & CONSTRUCTION"
+            "info-name": "YES DESIGN", "info-addr": "서울시 강남구 테헤란로 123", "info-tel": "02-1234-5678", "info-email": "contact@yesdesign.com",
+            "footer-name": "YES DESIGN"
         };
 
         window.onload = function() {
-            // HTML 코드 자체에 원본 데이터가 삽입되어 있으면 로컬스토리지보다 HTML 자체를 우선 신뢰합니다.
-            // 이를 통해 다운로드된 파일 기반으로 동기화가 유지되도록 유도합니다.
+            // 텍스트 복구
             const savedTexts = JSON.parse(localStorage.getItem('siteTexts')) || defaultTexts;
             Object.keys(defaultTexts).forEach(id => {
                 const el = document.getElementById(id);
                 if(el) {
-                    // 만약 HTML 소스 안에 이미 다른 고유 텍스트가 박혀있다면 로컬스토리지 덮어쓰기를 스킵하여 다운로드 본을 존중합니다.
                     if(el.innerText === defaultTexts[id] && savedTexts[id]) {
-                        if(el.tagName === "TEXTAREA" || el.tagName === "INPUT") el.value = savedTexts[id];
-                        else el.innerText = savedTexts[id];
+                        el.innerText = savedTexts[id];
                     }
                 }
             });
 
-            const savedChatUrl = localStorage.getItem('kakaoChatUrl') || "";
-            if(savedChatUrl) {
-                document.getElementById('kakaoUrlInput').value = savedChatUrl;
-                document.getElementById('openChatArea').style.display = "block";
-            }
+            // 색상 복구
+            const mainColor = localStorage.getItem('mainColor') || '#1a2a3a';
+            const pointColor = localStorage.getItem('pointColor') || '#c5a880';
+            document.getElementById('mainColorPicker').value = mainColor;
+            document.getElementById('pointColorPicker').value = pointColor;
+            setCSSVariables(mainColor, pointColor);
 
-            // 포트폴리오 노드 매핑 복구
+            // 포트폴리오 데이터 복구
             if (!localStorage.getItem('portfolios')) {
-                // 만약 아래 스크립트 단에 고정 데이터가 하드코딩 되어 들어오면 이를 동적으로 읽습니다.
                 localStorage.setItem('portfolios', JSON.stringify([
-                    { id: 1, title: '역삼동 아파트 리모델링', desc: '모던 레이아웃 34평 인테리어 디자인 설계', images: [] },
-                    { id: 2, title: '성수동 감성 미니멀 카페', desc: '빈티지 앤 내추럴 컨셉 스페이스 브랜딩 프로젝트', images: [] }
+                    { id: 1, title: '역삼동 아파트 리모델링', desc: '클릭해서 제목을 수정하세요' },
+                    { id: 2, title: '성수동 감성 카페', desc: '클릭해서 설명을 수정하세요' }
                 ]));
             }
             renderPortfolio();
         };
 
-        function navigateTo(pageId) {
-            document.querySelectorAll('.page-section').forEach(sec => {
-                sec.classList.remove('active-page');
-            });
-            const targetSection = document.getElementById('section-' + pageId);
-            if(targetSection) targetSection.classList.add('active-page');
-
-            document.querySelectorAll('nav .menu-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            const activeNav = document.getElementById('nav-' + pageId);
-            if(activeNav) activeNav.classList.add('active');
-
-            window.scrollTo(0, 0);
+        function setCSSVariables(main, point) {
+            document.documentElement.style.setProperty('--main-bg-color', main);
+            document.documentElement.style.setProperty('--point-color', point);
         }
 
-        function checkAdminPassword() {
-            if (isEditMode) {
-                toggleAdminMode();
-                return;
-            }
-            const password = prompt("관리자 비밀번호를 입력하세요:");
-            if (password === "##joo1207") {
-                toggleAdminMode();
-            } else if (password !== null) {
-                alert("❌ 비밀번호가 틀렸습니다.");
-            }
+        function applyColors() {
+            const main = document.getElementById('mainColorPicker').value;
+            const point = document.getElementById('pointColorPicker').value;
+            setCSSVariables(main, point);
         }
 
         function toggleAdminMode() {
             isEditMode = !isEditMode;
             const body = document.body;
             const panel = document.getElementById('adminPanel');
+            const toggleBtn = document.getElementById('admin-toggle-btn');
 
             if (isEditMode) {
                 body.classList.add('edit-mode');
                 panel.style.display = 'block';
+                toggleBtn.innerText = "📁 편집모드 종료 (반영)";
+                toggleBtn.style.background = "#d9534f";
+                toggleBtn.style.color = "white";
                 
                 Object.keys(defaultTexts).forEach(id => {
                     const el = document.getElementById(id);
-                    if(el && !id.startsWith('hero-') && id !== 'about-title' && id !== 'port-title' && id !== 'contact-title') {
-                        el.contentEditable = "true";
-                    }
+                    if(el) el.contentEditable = "true";
                 });
-                alert("🔓 편집 모드가 활성화되었습니다. 내용을 수정한 후 파일 다운로드 버튼을 눌러 공유해 보세요!");
             } else {
                 body.classList.remove('edit-mode');
                 panel.style.display = 'none';
+                toggleBtn.innerText = "관리자 편집모드 켜기";
+                toggleBtn.style.background = "none";
+                toggleBtn.style.color = "#777";
                 
                 Object.keys(defaultTexts).forEach(id => {
                     const el = document.getElementById(id);
@@ -502,30 +320,13 @@
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'portfolio-item';
                 
-                let deleteBtnHtml = isEditMode ? `<button class="btn-danger" onclick="deletePortfolio(${item.id})">이 시공카드 삭제</button>` : '';
-                let uploadBtnHtml = isEditMode ? `
-                    <label class="photo-upload-label">
-                        📷 사진 올리기 (최대 10장)
-                        <input type="file" multiple accept="image/*" style="display:none;" onchange="uploadPortfolioImages(event, ${item.id})">
-                    </label>
-                ` : '';
+                let deleteBtnHtml = isEditMode ? `<button class="btn-danger" onclick="deletePortfolio(${item.id})">이 카드 삭제</button>` : '';
                 
-                let imgHtml = `<div class="portfolio-img-empty">YES DESIGN ARCHIVE</div>`;
-                let badgeHtml = '';
-                if(item.images && item.images.length > 0) {
-                    imgHtml = `<img src="${item.images[0]}" class="portfolio-img" alt="썸네일">`;
-                    badgeHtml = `<div class="img-count-badge">+${item.images.length}장</div>`;
-                }
-
                 itemDiv.innerHTML = `
-                    <div class="portfolio-img-container" onclick="openSlider(${item.id})">
-                        ${imgHtml}
-                        ${badgeHtml}
-                    </div>
+                    <div class="portfolio-img">YES DESIGN 시공 사진</div>
                     <div class="portfolio-info">
                         <h3 id="p-title-${index}" contenteditable="${isEditMode}">${item.title}</h3>
                         <p id="p-desc-${index}" contenteditable="${isEditMode}">${item.desc}</p>
-                        ${uploadBtnHtml}
                         ${deleteBtnHtml}
                     </div>
                 `;
@@ -533,105 +334,22 @@
             });
         }
 
-        function uploadPortfolioImages(event, id) {
-            const files = event.target.files;
-            if(!files || files.length === 0) return;
-            
-            if(files.length > 10) {
-                alert("❌ 사진은 한 번에 최대 10장까지만 업로드할 수 있습니다.");
-                return;
-            }
-
-            let portfolios = JSON.parse(localStorage.getItem('portfolios')) || [];
-            let targetItem = portfolios.find(p => p.id === id);
-            if(!targetItem) return;
-
-            targetItem.images = [];
-            let loadedCount = 0;
-
-            for(let i=0; i<files.length; i++) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    targetItem.images.push(e.target.result);
-                    loadedCount++;
-                    if(loadedCount === files.length) {
-                        localStorage.setItem('portfolios', JSON.stringify(portfolios));
-                        alert(`📸 사진 정보 등록 성공! 꼭 빌더 창에서 변경사항 저장을 먼저 눌러주세요.`);
-                        renderPortfolio();
-                    }
-                };
-                reader.readAsDataURL(files[i]);
-            }
-        }
-
-        function openSlider(id) {
-            if(isEditMode) return;
-            const portfolios = JSON.parse(localStorage.getItem('portfolios')) || [];
-            const targetItem = portfolios.find(p => p.id === id);
-            if(!targetItem || !targetItem.images || targetItem.images.length === 0) {
-                alert("등록된 시공 사례 사진자료가 없습니다.");
-                return;
-            }
-
-            currentSliderImages = targetItem.images;
-            currentSliderIndex = 0;
-            
-            updateSliderContent();
-            document.getElementById('sliderLightbox').style.display = 'flex';
-        }
-
-        function updateSliderContent() {
-            document.getElementById('sliderImg').src = currentSliderImages[currentSliderIndex];
-            document.getElementById('sliderIndicator').innerText = `${currentSliderIndex + 1} / ${currentSliderImages.length}`;
-        }
-
-        function moveSlider(direction) {
-            currentSliderIndex += direction;
-            if(currentSliderIndex < 0) currentSliderIndex = currentSliderImages.length - 1;
-            if(currentSliderIndex >= currentSliderImages.length) currentSliderIndex = 0;
-            updateSliderContent();
-        }
-
-        function closeSlider() {
-            document.getElementById('sliderLightbox').style.display = 'none';
-        }
-
         function addNewPortfolioCard() {
             const portfolios = JSON.parse(localStorage.getItem('portfolios')) || [];
             portfolios.push({
                 id: Date.now(),
-                title: '새 프로젝트 명칭',
-                desc: '프로젝트 스펙 및 간략 설명',
-                images: []
+                title: '새 프로젝트 제목 (클릭 수정)',
+                desc: '상세 내용 설명 (클릭 수정)'
             });
             localStorage.setItem('portfolios', JSON.stringify(portfolios));
             renderPortfolio();
         }
 
         function deletePortfolio(id) {
-            if(confirm("이 시공 실적 카드를 목록에서 지우시겠습니까?")) {
-                let portfolios = JSON.parse(localStorage.getItem('portfolios')) || [];
-                portfolios = portfolios.filter(item => item.id !== id);
-                localStorage.setItem('portfolios', JSON.stringify(portfolios));
-                renderPortfolio();
-            }
-        }
-
-        function handleClientFile(event) {
-            const file = event.target.files[0];
-            if(!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                tempClientFileBase64 = e.target.result;
-                document.getElementById('clientFilePreview').innerText = `📎 파일이 정상적으로 첨부되었습니다: (${file.name})`;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function openKakaoChat() {
-            const savedChatUrl = localStorage.getItem('kakaoChatUrl') || "";
-            if(savedChatUrl) window.open(savedChatUrl, '_blank');
+            let portfolios = JSON.parse(localStorage.getItem('portfolios')) || [];
+            portfolios = portfolios.filter(item => item.id !== id);
+            localStorage.setItem('portfolios', JSON.stringify(portfolios));
+            renderPortfolio();
         }
 
         function saveAllChanges() {
@@ -653,32 +371,27 @@
             });
             localStorage.setItem('portfolios', JSON.stringify(portfolios));
 
-            const chatUrlVal = document.getElementById('kakaoUrlInput').value.trim();
-            localStorage.setItem('kakaoChatUrl', chatUrlVal);
-            if(chatUrlVal) {
-                document.getElementById('openChatArea').style.display = "block";
-            } else {
-                document.getElementById('openChatArea').style.display = "none";
-            }
+            localStorage.setItem('mainColor', document.getElementById('mainColorPicker').value);
+            localStorage.setItem('pointColor', document.getElementById('pointColorPicker').value);
 
-            alert('💾 변경 내용이 임시 저장되었습니다.\n\n다른 사람들에게도 이 내용을 보이게 하려면 반드시 아래 [서버 반영용 파일 다운로드] 버튼을 눌러 새 파일로 GitHub을 업데이트해 주세요!');
+            alert('💾 변경 내용이 정상 저장되었습니다.\n\n다른 사람들에게도 동일하게 보이고 모바일 반영을 완료하려면 아래 [서버 반영용 파일 다운로드] 버튼을 눌러 GitHub을 업데이트 해주세요!');
+            if(isEditMode) toggleAdminMode();
         }
 
-        // [핵심 변경] 수정한 텍스트와 포트폴리오 데이터를 HTML 내부에 통째로 주입하여 새 파일로 추출해 주는 엔진 함수
+        // 수정한 디자인 테마색, 포인트 컬러, 텍스트 일체를 HTML 내부 소스코드에 영구 인젝션하여 추출해주는 모듈 함수
         function downloadUpdatedHtml() {
-            // 현재 화면상의 수정 데이터 수집
             const textData = {};
             Object.keys(defaultTexts).forEach(id => {
                 const el = document.getElementById(id);
                 if(el) textData[id] = el.innerText.replace(/\n/g, '\\n');
             });
             const portfolios = localStorage.getItem('portfolios') || "[]";
-            const chatUrl = document.getElementById('kakaoUrlInput').value.trim();
+            const mainColor = document.getElementById('mainColorPicker').value;
+            const pointColor = document.getElementById('pointColorPicker').value;
 
-            // 현재 HTML 문서 본문 가져오기
             let currentHtml = document.documentElement.outerHTML;
 
-            // 소스코드 내 초기 복구 템플릿 영역을 최신 데이터로 자동 정밀 갱신
+            // 초기 텍스트 정밀 주입 연동
             const textRegex = /const defaultTexts = \{[\s\S]*?\};/;
             let newTextString = `const defaultTexts = {\n`;
             Object.keys(textData).forEach((key, idx, arr) => {
@@ -687,17 +400,21 @@
             newTextString += `        };`;
             currentHtml = currentHtml.replace(textRegex, newTextString);
 
-            // 포트폴리오 데이터 템플릿 갱신
+            // 포트폴리오 배열 주입 연동
             const portRegex = /localStorage\.setItem\('portfolios', JSON\.stringify\(\[[\s\S]*?\]\)\);/;
             const newPortString = `localStorage.setItem('portfolios', JSON.stringify(${portfolios}));`;
             currentHtml = currentHtml.replace(portRegex, newPortString);
 
-            // 카카오톡 링크 템플릿 갱신
-            const chatRegex = /const savedChatUrl = localStorage\.getItem\('kakaoChatUrl'\) \|\| ".*?";/;
-            const newChatString = `const savedChatUrl = localStorage.getItem('kakaoChatUrl') || "${chatUrl}";`;
-            currentHtml = currentHtml.replace(chatRegex, newChatString);
+            // 로드 타임 기본 세팅 색상값 주입 연동
+            const mainColorRegex = /const mainColor = localStorage\.getItem\('mainColor'\) \|\| '.*?';/;
+            const newMainColorString = `const mainColor = localStorage.getItem('mainColor') || '${mainColor}';`;
+            currentHtml = currentHtml.replace(mainColorRegex, newMainColorString);
 
-            // 텍스트 파일(Blob) 형태로 포맷 변환하여 다운로드 트리거
+            const pointColorRegex = /const pointColor = localStorage\.getItem\('pointColor'\) \|\| '.*?';/;
+            const newPointColorString = `const pointColor = localStorage.getItem('pointColor') || '${pointColor}';`;
+            currentHtml = currentHtml.replace(pointColorRegex, newPointColorString);
+
+            // 다운로드 실행 구조 설계
             const blob = new Blob(["<!DOCTYPE html>\n" + currentHtml], { type: "text/html;charset=utf-8" });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
@@ -715,15 +432,10 @@
                 date: new Date().toLocaleDateString(),
                 name: document.getElementById('clientName').value,
                 phone: document.getElementById('clientPhone').value,
-                message: document.getElementById('clientMessage').value,
-                attachedImg: tempClientFileBase64
+                message: document.getElementById('clientMessage').value
             });
             localStorage.setItem('inquiries', JSON.stringify(inquiries));
-            
             document.getElementById('inquiryForm').reset();
-            document.getElementById('clientFilePreview').innerText = "";
-            tempClientFileBase64 = "";
-            
             alert('상담 신청이 완료되었습니다!');
         }
 
@@ -734,24 +446,16 @@
             tbody.innerHTML = '';
 
             if(inquiries.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">접수된 문의 내역이 없습니다.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">접수된 문의가 없습니다.</td></tr>`;
                 return;
             }
             inquiries.forEach(item => {
-                let imgTag = '';
-                if(item.attachedImg) {
-                    imgTag = `<br><br><p style="font-weight:600; color:#E8651E;">[첨부도면/사진 자료]</p><img src="${item.attachedImg}" class="attached-img-preview" onclick="window.open(this.src)">`;
-                }
-                
                 tbody.innerHTML += `
                     <tr>
                         <td>${item.date}</td>
                         <td><b>${item.name}</b></td>
                         <td>${item.phone}</td>
-                        <td>
-                            <div style="white-space: pre-wrap; max-width:400px; font-size:0.9rem;">${item.message}</div>
-                            ${imgTag}
-                        </td>
+                        <td>${item.message}</td>
                         <td><button class="btn-table-del" onclick="deleteInquiry(${item.id})">삭제</button></td>
                     </tr>
                 `;
@@ -761,7 +465,7 @@
         function closeInquiryModal() { document.getElementById('inquiryModal').style.display = 'none'; }
         
         function deleteInquiry(id) {
-            if(confirm("이 상담 신청 내역을 리스트에서 완전히 지우시겠습니까?")) {
+            if(confirm("이 문의 내역을 삭제하시겠습니까?")) {
                 let inquiries = JSON.parse(localStorage.getItem('inquiries')) || [];
                 inquiries = inquiries.filter(item => item.id !== id);
                 localStorage.setItem('inquiries', JSON.stringify(inquiries));
