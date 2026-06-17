@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YES DESIGN | 프리미엄 인테리어 디자인</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- FontAwesome 아이콘 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -16,8 +13,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
         
         :root {
-            --color-bg-mi: #FAF7EC;     /* 캡처.JPG의 은은하고 아늑한 아이보리 미색 바탕 */
-            --color-yes-orange: #E86624; /* 캡처.JPG의 시그니처 주황색 */
+            --color-bg-mi: #FAF7EC;     /* 은은하고 따뜻한 미색 바탕 고정 */
+            --color-yes-orange: #E86624; /* 예스디자인 공식 시그니처 주황색 */
             --font-main: 'Noto Sans KR', sans-serif;
         }
 
@@ -27,26 +24,33 @@
             color: #222222;
             overflow-x: hidden;
             margin: 0; padding: 0;
+            -webkit-text-size-adjust: none;
         }
 
-        /* ─── 가상 시안과 100% 일치하는 메인 홈 상단 레이아웃 ─── */
+        /* ─── [HOME 모드] 데스크톱 + 모바일 완벽 호환 헤더 ─── */
         header.main-home-mode {
             position: relative !important;
             display: flex !important;
             flex-direction: column !important;
             align-items: center !important;
             justify-content: center !important;
-            padding: 3rem 0 0 0 !important;
+            padding: 2.5rem 0 0 0 !important;
             background-color: var(--color-bg-mi) !important;
+            border: none !important;
             box-shadow: none !important;
-            border-bottom: none !important;
         }
         
-        /* 텍스트 강제 조합 대신 실제 깃허브 서버에 있는 고유 로고 이미지를 매핑 */
+        header.main-home-mode .logo-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem !important;
+        }
+
         header.main-home-mode .logo-img {
-            height: 90px !important; /* 가상 시안에서 구현한 2.2배 이상 시원한 크기 */
+            height: 80px !important; /* PC 기준 선명하고 시원한 로고 크기 */
             width: auto !important;
-            margin-bottom: 2.5rem !important;
+            object-fit: contain;
             transition: all 0.3s ease;
         }
         
@@ -55,18 +59,22 @@
             background-color: var(--color-yes-orange) !important;
             display: flex !important;
             justify-content: center !important;
-            padding: 14px 0 !important;
+            align-items: center !important;
+            padding: 14px 10px !important;
+            flex-wrap: wrap; /* 모바일에서 메뉴가 넘칠 때 자연스럽게 줄바꿈 */
+            gap: 0;
         }
         
         header.main-home-mode .menu-item {
             color: #ffffff !important;
-            margin: 0 2.5rem !important;
+            margin: 0 1.8rem !important;
             font-size: 1.05rem !important;
             font-weight: 500;
+            white-space: nowrap;
         }
         header.main-home-mode .menu-item::after { background-color: #ffffff !important; }
 
-        /* ─── 서브 메뉴 진입 시 콘텐츠를 가리지 않는 고정형 레이아웃 ─── */
+        /* ─── [SUB 모드] 상단 고정형 헤더 디자인 ─── */
         header.sub-page-mode {
             position: fixed !important;
             top: 0; left: 0; right: 0; z-index: 50;
@@ -74,29 +82,56 @@
             flex-direction: row !important;
             align-items: center !important;
             justify-content: space-between !important;
-            padding: 1rem 5% !important;
+            padding: 0.8rem 5% !important;
             background-color: rgba(250, 247, 236, 0.98) !important;
-            border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+            border-bottom: 1px solid rgba(0,0,0,0.06) !important;
             box-shadow: 0 2px 10px rgba(0,0,0,0.02);
         }
-        header.sub-page-mode .logo-img {
-            height: 40px !important; /* 슬림하게 상단 좌측 고정 */
+        header.sub-page-mode .logo-container {
+            width: auto;
             margin-bottom: 0 !important;
+        }
+        header.sub-page-mode .logo-img {
+            height: 38px !important;
+            width: auto !important;
+            object-fit: contain;
         }
         header.sub-page-mode nav {
             width: auto !important;
             background-color: transparent !important;
             padding: 0 !important;
+            display: flex !important;
+            flex-wrap: nowrap;
         }
         header.sub-page-mode .menu-item {
             color: #333333 !important;
-            margin-left: 2rem !important;
+            margin-left: 1.5rem !important;
             margin-right: 0 !important;
-            font-size: 1rem !important;
+            font-size: 0.95rem !important;
+            white-space: nowrap;
         }
         header.sub-page-mode .menu-item::after { background-color: var(--color-yes-orange) !important; }
 
-        /* 공통 네비게이션 애니메이션 효과 */
+        /* 모바일 화면 최적화 미디어 쿼리 (화면 폭 640px 이하) */
+        @media (max-width: 640px) {
+            header.main-home-mode { padding-top: 2rem !important; }
+            header.main-home-mode .logo-img { height: 65px !important; } /* 모바일 로고 크기 최적화 */
+            header.main-home-mode .menu-item {
+                margin: 6px 0.8rem !important; /* 모바일 터치 영역 고려한 여백 조정 */
+                font-size: 0.95rem !important;
+            }
+            header.sub-page-mode {
+                padding: 0.8rem 1rem !important;
+            }
+            header.sub-page-mode .logo-img { height: 32px !important; }
+            header.sub-page-mode .menu-item {
+                margin-left: 0.8rem !important;
+                font-size: 0.85rem !important;
+            }
+            .sub-padding { padding-top: 80px; }
+        }
+
+        /* 공통 네비게이션 효과 */
         .menu-item {
             position: relative;
             cursor: pointer;
@@ -113,12 +148,11 @@
 
         .page-view { display: none; background-color: var(--color-bg-mi) !important; }
         .page-view.active { display: block; }
-        .sub-padding { padding-top: 100px; }
+        .sub-padding { padding-top: 110px; }
 
-        /* 메인 히어로 구역 미색 바탕 유지 */
         .hero-section {
             background-color: var(--color-bg-mi) !important;
-            min-height: 55vh;
+            min-height: 50vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -126,7 +160,6 @@
             text-align: center;
         }
 
-        /* 시공사례 포토 카드 스킨 */
         .image-card {
             background: #ffffff;
             border-radius: 12px;
@@ -139,28 +172,23 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.06);
         }
 
-        /* 하단 카톡 플로팅 버튼 */
         .kakao-float {
             position: fixed;
-            bottom: 30px; right: 30px;
-            width: 60px; height: 60px;
+            bottom: 25px; right: 25px;
+            width: 56px; height: 56px;
             background-color: #FEE500;
             border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
             z-index: 999;
             cursor: pointer;
-            transition: transform 0.3s;
         }
-        .kakao-float:hover { transform: scale(1.1); }
     </style>
 </head>
 <body>
 
-    <!-- 상단 헤더 영역 -->
     <header id="main-header" class="main-home-mode">
         <div class="logo-container cursor-pointer" onclick="showPage('home')">
-            <!-- 대표님의 깃허브 서버 안에 올라가 있는 정확한 오리지널 로고 이미지 파일을 매핑하여 깨짐 현상 완전 해결 -->
             <img src="img/logo.png" class="logo-img" alt="YES DESIGN" onerror="this.src='https://ljh5819.github.io/YES-DESIGN/img/logo.png'">
         </div>
         <nav>
@@ -171,361 +199,55 @@
         </nav>
     </header>
 
-    <!-- ─── 1. 메인 홈 화면 (따뜻한 아이보리 갤러리 감성) ─── -->
     <main id="page-home" class="page-view active">
         <section class="hero-section px-4">
-            <h1 id="db-main-title" class="text-4xl md:text-5xl font-bold text-[#222222] mb-4 tracking-tight">공간에 가치를 더하다</h1>
-            <p id="db-main-sub" class="text-lg md:text-xl text-[#666666] font-light">YES DESIGN이 제안하는 프리미엄 인테리어 디자인</p>
+            <h1 id="db-main-title" class="text-3xl md:text-5xl font-bold text-[#222222] mb-4 tracking-tight">공간에 가치를 더하다</h1>
+            <p id="db-main-sub" class="text-base md:text-xl text-[#666666] font-light">YES DESIGN이 제안하는 프리미엄 인테리어 디자인</p>
         </section>
     </main>
 
-    <!-- ─── 2. 회사소개 화면 ─── -->
     <div id="page-about" class="page-view sub-padding max-w-4xl mx-auto px-6 py-12">
-        <h2 class="text-3xl font-bold mb-8 border-b-2 pb-3" style="border-color: var(--color-yes-orange);">ABOUT US</h2>
-        <div id="db-about-text" class="text-gray-700 leading-relaxed text-lg whitespace-pre-wrap">
+        <h2 class="text-2xl md:text-3xl font-bold mb-8 border-b-2 pb-3" style="border-color: var(--color-yes-orange);">ABOUT US</h2>
+        <div id="db-about-text" class="text-gray-700 leading-relaxed text-base md:text-lg whitespace-pre-wrap">
             예스디자인은 고객의 라이프스타일과 공간의 본질을 연구하여, 가장 아름답고 효율적인 공간 정체성을 제안하는 프리미엄 인테리어 디자인 그룹입니다.
         </div>
     </div>
 
-    <!-- ─── 3. 오시는길 화면 (대표님 회사 실제 주소 상단 완벽 고정) ─── -->
     <div id="page-location" class="page-view sub-padding max-w-4xl mx-auto px-6 py-12">
-        <h2 class="text-3xl font-bold mb-6 border-b-2 pb-3" style="border-color: var(--color-yes-orange);">LOCATION</h2>
+        <h2 class="text-2xl md:text-3xl font-bold mb-6 border-b-2 pb-3" style="border-color: var(--color-yes-orange);">LOCATION</h2>
         
-        <div class="bg-white p-6 rounded-xl shadow-sm mb-8 border border-gray-100 flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full flex items-center justify-center text-white" style="background-color: var(--color-yes-orange);">
-                <i class="fas fa-map-marker-alt text-xl"></i>
+        <div class="bg-white p-5 rounded-xl shadow-sm mb-8 border border-gray-100 flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center text-white flex-shrink-0" style="background-color: var(--color-yes-orange);">
+                <i class="fas fa-map-marker-alt text-lg"></i>
             </div>
             <div>
-                <p class="text-sm text-gray-500 font-medium">본사 주소</p>
-                <p class="text-xl font-bold text-gray-800 mt-0.5">경기도 고양시 덕양구 호수로 76-14, B층1호</p>
+                <p class="text-xs text-gray-400 font-medium">본사 주소</p>
+                <p class="text-base md:text-xl font-bold text-gray-800 mt-0.5">경기도 고양시 덕양구 호수로 76-14, B층1호</p>
             </div>
         </div>
 
-        <div class="bg-gray-100 h-96 rounded-xl flex flex-col justify-center items-center p-4 text-center border">
-            <i class="fas fa-map-marked-alt text-5xl text-gray-400 mb-4"></i>
-            <p class="text-gray-600 font-medium mb-4">아래 버튼을 누르시면 네이버 지도로 상세한 위치 및 길 찾기가 가능합니다.</p>
-            <a id="db-map-url" href="https://map.naver.com" target="_blank" class="px-6 py-3 text-white font-medium rounded-lg shadow-md hover:opacity-90 transition" style="background-color: var(--color-yes-orange);">
-                <i class="fas fa-navigation mr-2"></i>네이버 지도로 위치 보기
+        <div class="bg-gray-100 h-80 rounded-xl flex flex-col justify-center items-center p-4 text-center border">
+            <i class="fas fa-map-marked-alt text-4xl text-gray-400 mb-3"></i>
+            <p class="text-sm text-gray-600 font-medium mb-4">아래 버튼을 누르시면 네이버 지도로 상세한 위치 및 길 찾기가 가능합니다.</p>
+            <a id="db-map-url" href="https://map.naver.com/p/entry/place/1237368875?c=18.28,0,0,0,dh&placePath=/home?from=map&fromPanelNum=1&additionalHeight=76&timestamp=202606171338&locale=ko&svcName=map_pcv5" target="_blank" class="px-5 py-2.5 text-white text-sm font-medium rounded-lg shadow-md hover:opacity-90 transition" style="background-color: var(--color-yes-orange);">
+                <i class="fas fa-navigation mr-1"></i>네이버 지도로 위치 보기
             </a>
         </div>
     </div>
 
-    <!-- ─── 4. 시공사례 화면 ─── -->
     <div id="page-portfolio" class="page-view sub-padding max-w-6xl mx-auto px-6 py-12">
         <div class="flex justify-between items-center mb-8 border-b-2 pb-3" style="border-color: var(--color-yes-orange);">
-            <h2 class="text-3xl font-bold">PORTFOLIO</h2>
-            <button id="admin-add-btn" class="hidden text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition" style="background-color: var(--color-yes-orange);" onclick="openUploadModal()">
-                <i class="fas fa-plus mr-2"></i>새 시공사례 추가
+            <h2 class="text-2xl md:text-3xl font-bold">PORTFOLIO</h2>
+            <button id="admin-add-btn" class="hidden text-white px-4 py-2 rounded-lg text-xs md:text-sm font-medium hover:opacity-90 transition" style="background-color: var(--color-yes-orange);" onclick="openUploadModal()">
+                <i class="fas fa-plus mr-1"></i>추가
             </button>
         </div>
-        <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- 파이어베이스 데이터 실시간 바인딩 -->
-        </div>
+        <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
     </div>
 
-    <!-- ─── 5. 문의하기 화면 ─── -->
     <div id="page-contact" class="page-view sub-padding max-w-5xl mx-auto px-6 py-12">
-        <h2 class="text-3xl font-bold mb-8 border-b-2 pb-3" style="border-color: var(--color-yes-orange);">CONTACT US</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <h2 class="text-2xl md:text-3xl font-bold mb-8 border-b-2 pb-3" style="border-color: var(--color-yes-orange);">CONTACT US</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
             <div>
-                <h3 class="text-xl font-bold mb-4">(주)예스디자인</h3>
-                <p class="text-gray-600 mb-6 font-light">공간에 대한 고민, 예스디자인이 명쾌한 해답을 드리겠습니다. 상담 신청을 남겨주시면 담당 실장이 빠른 시일 내에 연락드리겠습니다.</p>
-                <ul class="space-y-4 text-gray-700">
-                    <li class="flex items-center gap-3"><i class="fas fa-phone text-gray-400 w-5"></i> <span>031-972-0492</span></li>
-                    <li class="flex items-center gap-3"><i class="fas fa-envelope text-gray-400 w-5"></i> <span>yes_design_@naver.com</span></li>
-                    <li class="flex items-center gap-3"><i class="fas fa-map-pin text-gray-400 w-5"></i> <span>경기도 고양시 덕양구 호수로 76-14, B층1호</span></li>
-                </ul>
-            </div>
-            <form id="contact-form" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 space-y-4" onsubmit="submitConsult(event)">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">고객명 / 회사명</label>
-                    <input type="text" id="consult-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2" style="--tw-ring-color: var(--color-yes-orange);">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">연락처</label>
-                    <input type="tel" id="consult-tel" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2" style="--tw-ring-color: var(--color-yes-orange);">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">상담 내용 (공간 유형, 예산 등)</label>
-                    <textarea id="consult-memo" rows="4" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2" style="--tw-ring-color: var(--color-yes-orange);"></textarea>
-                </div>
-                <button type="submit" class="w-full text-white py-3 rounded-lg font-medium shadow-md hover:opacity-90 transition" style="background-color: var(--color-yes-orange);">상담 신청하기</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- ─── 대표님 요청 사항: 하부 지정 주황색 컬러 바(Bar) 리모델링 완성 ─── -->
-    <footer class="mt-20">
-        <!-- 상단 메뉴와 완벽하게 조화를 이루는 하단 오렌지색 기업 정보 띠 벨트 형성 -->
-        <div style="background-color: var(--color-yes-orange);" class="text-white py-5 px-6 shadow-inner">
-            <div class="max-w-6xl mx-auto flex flex-wrap justify-center items-center text-center text-xs md:text-sm font-medium gap-x-4 gap-y-1.5">
-                <span>(주)예스디자인</span>
-                <span class="opacity-40 hidden md:inline">|</span>
-                <span>사업자등록번호 : 689-87-03553</span>
-                <span class="opacity-40 hidden md:inline">|</span>
-                <span>전화번호 : 031-972-0492</span>
-                <span class="opacity-40 hidden md:inline">|</span>
-                <span>이메일 : yes_design_@naver.com</span>
-            </div>
-        </div>
-        <!-- 최하단 저작권 및 시크릿 점(●) 라인 분리 -->
-        <div class="bg-white/40 py-4 text-center text-xs text-gray-400 font-light flex justify-center items-center gap-2">
-            <span>Copyright © 2026 YES DESIGN. All rights reserved.</span>
-            <!-- 은밀히 유지해 둔 관리자 진입 버튼 -->
-            <span onclick="triggerAdmin()" class="cursor-pointer text-gray-300 hover:text-gray-500 transition text-[8px]">●</span>
-        </div>
-    </footer>
-
-    <!-- 카카오톡 실시간 상담 버튼 -->
-    <div id="kakao-btn" class="kakao-float" onclick="goToKakao()">
-        <i class="fas fa-comment text-2xl text-[#3C1E1E]"></i>
-    </div>
-
-    <!-- ─── 관리자 실시간 제어 대시보드 ─── -->
-    <div id="admin-panel" class="hidden fixed bottom-5 left-5 bg-black/95 text-white p-6 rounded-2xl shadow-2xl z-50 max-w-md w-full border border-white/10 max-h-[85vh] overflow-y-auto">
-        <div class="flex justify-between items-center mb-4 border-b border-white/20 pb-2">
-            <h3 class="font-bold text-orange-400 flex items-center gap-2"><i class="fas fa-lock-open"></i> 실시간 관리자 패널</h3>
-            <button onclick="closeAdmin()" class="text-gray-400 hover:text-white text-sm">닫기</button>
-        </div>
-        <div class="space-y-4 text-xs">
-            <div>
-                <label class="block text-gray-400 mb-1">메인 타이틀 수정</label>
-                <input type="text" id="input-main-title" class="w-full bg-white/10 p-2 rounded border border-white/20 text-white">
-            </div>
-            <div>
-                <label class="block text-gray-400 mb-1">메인 서브카피 수정</label>
-                <input type="text" id="input-main-sub" class="w-full bg-white/10 p-2 rounded border border-white/20 text-white">
-            </div>
-            <div>
-                <label class="block text-gray-400 mb-1">회사 소개문 수정</label>
-                <textarea id="input-about-text" rows="3" class="w-full bg-white/10 p-2 rounded border border-white/20 text-white"></textarea>
-            </div>
-            <div>
-                <label class="block text-gray-400 mb-1">네이버 지도 링크 URL</label>
-                <input type="text" id="input-map-url" class="w-full bg-white/10 p-2 rounded border border-white/20 text-white">
-            </div>
-            <div>
-                <label class="block text-gray-400 mb-1">카카오톡 상담 링크 URL</label>
-                <input type="text" id="input-kakao-url" class="w-full bg-white/10 p-2 rounded border border-white/20 text-white">
-            </div>
-            <div class="pt-2 flex gap-2">
-                <button onclick="saveAllText()" class="flex-1 bg-gradient-to-r from-orange-500 to-amber-500 text-white py-2.5 rounded font-bold">
-                    <i class="fas fa-save mr-1"></i> 변경사항 실시간 서버 저장
-                </button>
-                <button onclick="openConsultListModal()" class="bg-blue-600 text-white px-3 py-2.5 rounded font-bold">
-                    <i class="fas fa-envelope-open-text"></i> 내역
-                </button>
-            </div>
-            <button onclick="resetPortfolioData()" class="w-full bg-red-700 text-white py-1.5 rounded mt-2 text-[11px]">
-                <i class="fas fa-trash-alt mr-1"></i> 시공사례 전체 리셋
-            </button>
-        </div>
-    </div>
-
-    <!-- 카드 추가 팝업 -->
-    <div id="upload-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
-            <h3 class="text-xl font-bold border-b pb-2">새 시공사례 업로드</h3>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">현장명 (제목)</label>
-                <input type="text" id="card-title" class="w-full px-3 py-2 border rounded-lg">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">현장 설명 (내용)</label>
-                <textarea id="card-desc" rows="2" class="w-full px-3 py-2 border rounded-lg"></textarea>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">사진 파일 선택 (최대 10장)</label>
-                <input type="file" id="card-images" multiple accept="image/*" class="w-full text-sm">
-            </div>
-            <div class="flex gap-2 pt-2">
-                <button onclick="closeUploadModal()" class="flex-1 bg-gray-100 py-2.5 rounded-lg">취소</button>
-                <button onclick="submitCard()" class="flex-1 text-white py-2.5 rounded-lg" style="background-color: var(--color-yes-orange);">업로드 완료</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 상담 내역 리스트 모달 -->
-    <div id="consult-list-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 shadow-2xl flex flex-col max-h-[80vh]">
-            <div class="flex justify-between items-center border-b pb-3 mb-4">
-                <h3 class="text-xl font-bold text-gray-800"><i class="fas fa-list text-blue-600 mr-2"></i>상담 신청 접수 내역</h3>
-                <button onclick="closeConsultListModal()" class="text-gray-400 text-xl"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="overflow-y-auto flex-1 space-y-3" id="consult-list-container"></div>
-        </div>
-    </div>
-
-    <script>
-        const firebaseConfig = { databaseURL: "https://yesdesign-e3e26-default-rtdb.firebaseio.com/" };
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-
-        let kakaoUrl = "https://pf.kakao.com";
-        let currentAdmin = false;
-
-        function showPage(pageId) {
-            document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active'));
-            document.getElementById('page-' + pageId).classList.add('active');
-
-            const header = document.getElementById('main-header');
-            if (pageId === 'home') {
-                header.className = 'main-home-mode';
-            } else {
-                header.className = 'sub-page-mode';
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        database.ref('site_content').on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                if (data.mainTitle) { document.getElementById('db-main-title').innerText = data.mainTitle; document.getElementById('input-main-title').value = data.mainTitle; }
-                if (data.mainSub) { document.getElementById('db-main-sub').innerText = data.mainSub; document.getElementById('input-main-sub').value = data.mainSub; }
-                if (data.aboutText) { document.getElementById('db-about-text').innerText = data.aboutText; document.getElementById('input-about-text').value = data.aboutText; }
-                if (data.mapUrl) { document.getElementById('db-map-url').href = data.mapUrl; document.getElementById('input-map-url').value = data.mapUrl; }
-                if (data.kakaoUrl) { kakaoUrl = data.kakaoUrl; document.getElementById('input-kakao-url').value = data.kakaoUrl; }
-            }
-        });
-
-        database.ref('portfolio').on('value', (snapshot) => {
-            const grid = document.getElementById('portfolio-grid');
-            grid.innerHTML = '';
-            const data = snapshot.val();
-            if (data) {
-                Object.keys(data).reverse().forEach(key => {
-                    const card = data[key];
-                    let dotsHtml = ''; let slidesHtml = '';
-                    if (card.images && card.images.length > 0) {
-                        card.images.forEach((img, idx) => {
-                            dotsHtml += `<span class="w-2 h-2 rounded-full bg-white/60 ${idx===0?'!bg-white':''}" data-dot="${key}-${idx}"></span>`;
-                            slidesHtml += `<img src="${img}" class="w-full h-64 object-cover flex-shrink-0 ${idx===0?'':'hidden'}" data-slide="${key}-${idx}">`;
-                        });
-                    }
-                    grid.innerHTML += `
-                        <div class="image-card relative">
-                            ${currentAdmin ? `<button onclick="deleteCard('${key}')" class="absolute top-3 right-3 bg-red-600 text-white p-2 rounded-full text-xs z-20"><i class="fas fa-trash"></i></button>` : ''}
-                            <div class="relative overflow-hidden">
-                                <div class="flex" id="slider-${key}">${slidesHtml}</div>
-                                ${card.images && card.images.length > 1 ? `
-                                    <button onclick="prevSlide('${key}', ${card.images.length})" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 text-white w-8 h-8 rounded-full flex items-center justify-center"><i class="fas fa-chevron-left text-xs"></i></button>
-                                    <button onclick="nextSlide('${key}', ${card.images.length})" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 text-white w-8 h-8 rounded-full flex items-center justify-center"><i class="fas fa-chevron-right text-xs"></i></button>
-                                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">${dotsHtml}</div>
-                                ` : ''}
-                            </div>
-                            <div class="p-5">
-                                <h4 class="font-bold text-lg text-gray-800 mb-2">${card.title}</h4>
-                                <p class="text-sm text-gray-500">${card.desc}</p>
-                            </div>
-                        </div>`;
-                });
-            } else {
-                grid.innerHTML = `<div class="col-span-full text-center text-gray-400 py-12">등록된 시공사례가 없습니다.</div>`;
-            }
-        });
-
-        let slideTracker = {};
-        function showSlide(key, index) {
-            document.querySelectorAll(`[data-slide^="${key}-"]`).forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll(`[data-dot^="${key}-"]`).forEach(el => el.classList.remove('!bg-white'));
-            document.querySelector(`[data-slide="${key}-${index}"]`).classList.remove('hidden');
-            document.querySelector(`[data-dot="${key}-${index}"]`).classList.add('!bg-white');
-        }
-        function nextSlide(key, total) { if (!slideTracker[key]) slideTracker[key] = 0; slideTracker[key] = (slideTracker[key] + 1) % total; showSlide(key, slideTracker[key]); }
-        function prevSlide(key, total) { if (!slideTracker[key]) slideTracker[key] = 0; slideTracker[key] = (slideTracker[key] - 1 + total) % total; showSlide(key, slideTracker[key]); }
-
-        function resizeAndCompressImage(file) {
-            return new Promise((resolve) => {
-                const reader = new FileReader(); reader.readAsDataURL(file);
-                reader.onload = function (e) {
-                    const img = new Image(); img.src = e.target.result;
-                    img.onload = function () {
-                        const canvas = document.createElement('canvas');
-                        let width = img.width; let height = img.height;
-                        if (width > 1200) { height = Math.round((height * 1200) / width); width = 1200; }
-                        canvas.width = width; canvas.height = height;
-                        const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
-                        resolve(canvas.toDataURL('image/jpeg', 0.88));
-                    };
-                };
-            });
-        }
-
-        async function submitCard() {
-            const title = document.getElementById('card-title').value;
-            const desc = document.getElementById('card-desc').value;
-            const fileInput = document.getElementById('card-images');
-            if (!title || fileInput.files.length === 0) { alert("내용을 입력해 주세요."); return; }
-            const compressedImages = [];
-            for (let i = 0; i < fileInput.files.length; i++) {
-                const dataUrl = await resizeAndCompressImage(fileInput.files[i]);
-                compressedImages.push(dataUrl);
-            }
-            database.ref('portfolio').push({ title: title, desc: desc, images: compressedImages }).then(() => {
-                alert("실시간 업로드 완료!"); closeUploadModal();
-                document.getElementById('card-title').value = ''; document.getElementById('card-desc').value = ''; fileInput.value = '';
-            });
-        }
-
-        function deleteCard(key) { if (confirm("삭제하시겠습니까?")) database.ref('portfolio/' + key).remove(); }
-
-        function submitConsult(e) {
-            e.preventDefault();
-            const name = document.getElementById('consult-name').value;
-            const tel = document.getElementById('consult-tel').value;
-            const memo = document.getElementById('consult-memo').value;
-            database.ref('consults').push({ name: name, tel: tel, memo: memo, date: new Date().toLocaleString('ko-KR') }).then(() => {
-                alert("상담 신청이 완료되었습니다."); document.getElementById('contact-form').reset();
-            });
-        }
-
-        function openConsultListModal() {
-            document.getElementById('consult-list-modal').classList.remove('hidden');
-            const container = document.getElementById('consult-list-container');
-            database.ref('consults').once('value', (snapshot) => {
-                container.innerHTML = ''; const data = snapshot.val();
-                if (data) {
-                    Object.keys(data).reverse().forEach(key => {
-                        const item = data[key];
-                        container.innerHTML += `
-                            <div class="bg-gray-50 p-4 rounded-xl border relative">
-                                <button onclick="deleteConsult('${key}')" class="absolute top-3 right-3 text-red-500 text-xs">삭제</button>
-                                <p class="text-xs text-gray-400 mb-1">${item.date}</p>
-                                <p class="text-sm font-bold">${item.name} (${item.tel})</p>
-                                <p class="text-sm text-gray-600 mt-2 bg-white p-3 rounded border whitespace-pre-wrap">${item.memo}</p>
-                            </div>`;
-                    });
-                } else { container.innerHTML = '<p class="text-center text-gray-400 py-8">신청 내역이 없습니다.</p>'; }
-            });
-        }
-
-        function deleteConsult(key) { database.ref('consults/' + key).remove().then(() => openConsultListModal()); }
-
-        function saveAllText() {
-            database.ref('site_content').set({
-                mainTitle: document.getElementById('input-main-title').value,
-                mainSub: document.getElementById('input-main-sub').value,
-                aboutText: document.getElementById('input-about-text').value,
-                mapUrl: document.getElementById('input-map-url').value,
-                kakaoUrl: document.getElementById('input-kakao-url').value
-            }).then(() => alert("서버 저장 완료!"));
-        }
-
-        function triggerAdmin() {
-            if (prompt("비밀번호를 입력하세요.") === "##joo1207") {
-                currentAdmin = true;
-                document.getElementById('admin-panel').classList.remove('hidden');
-                document.getElementById('admin-add-btn').classList.remove('hidden');
-                alert("관리자 모드 활성화 완료.");
-            }
-        }
-
-        function resetPortfolioData() { if(confirm("전체 삭제하시겠습니까?")) database.ref('portfolio').remove(); }
-        function closeAdmin() { document.getElementById('admin-panel').classList.add('hidden'); }
-        function openUploadModal() { document.getElementById('upload-modal').classList.remove('hidden'); }
-        function closeUploadModal() { document.getElementById('upload-modal').classList.add('hidden'); }
-        function closeConsultListModal() { document.getElementById('consult-list-modal').classList.add('hidden'); }
-        function goToKakao() { window.open(kakaoUrl, '_blank'); }
-    </script>
-</body>
-</html>
+                <h3 class="text
