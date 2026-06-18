@@ -338,6 +338,13 @@
         </div>
     </div>
 
+    <div id="lightbox-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-[100]" onclick="closeLightbox()">
+        <button class="absolute top-5 right-5 text-white text-2xl hover:text-gray-300 transition" onclick="closeLightbox()">
+            <i class="fas fa-times"></i>
+        </button>
+        <img id="lightbox-img" src="" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl" onclick="event.stopPropagation()">
+    </div>
+
     <script>
         // 파이어베이스 데이터베이스 초기화
         const firebaseConfig = { databaseURL: "https://yesdesign-e3e26-default-rtdb.firebaseio.com/" };
@@ -347,7 +354,7 @@
         let kakaoUrl = "https://pf.kakao.com";
         let currentAdmin = false;
 
-        // [핵심 조치]: 파이어베이스 지연에 영향을 받지 않고 즉시 탭 전환을 보장하는 최우선 독립 함수
+        // 즉시 탭 전환 보장 독립 함수
         function showPage(pageId) {
             document.querySelectorAll('.page-view').forEach(view => {
                 view.classList.remove('active');
@@ -381,7 +388,25 @@
             }
         });
 
-        // 독립형 포트폴리오 안전 렌더링 함수
+        // 원본 이미지 라이트박스 팝업 열기/닫기
+        function openLightbox(src) {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            if (modal && img) {
+                img.src = src;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // 팝업 시 뒷배경 스크롤 방지
+            }
+        }
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = ''; // 스크롤 복구
+            }
+        }
+
+        // 독립형 포트폴리오 안전 렌더링 함수 (확대 보기 이벤트 및 커서 바인딩)
         function renderPortfolio() {
             database.ref('portfolio').once('value', (snapshot) => {
                 const grid = document.getElementById('portfolio-grid');
@@ -395,7 +420,8 @@
                         if (card.images && card.images.length > 0) {
                             card.images.forEach((img, idx) => {
                                 dotsHtml += `<span class="w-1.5 h-1.5 rounded-full bg-white/60 ${idx===0?'!bg-white':''}" data-dot="${key}-${idx}"></span>`;
-                                slidesHtml += `<img src="${img}" class="w-full h-56 md:h-64 object-cover flex-shrink-0 ${idx===0?'':'hidden'}" data-slide="${key}-${idx}">`;
+                                // 이미지 클릭 시 openLightbox 호출 및 크로스 브라우저 돋보기 커서(cursor-zoom-in) 부여
+                                slidesHtml += `<img src="${img}" class="w-full h-56 md:h-64 object-cover flex-shrink-0 cursor-zoom-in ${idx===0?'':'hidden'}" data-slide="${key}-${idx}" onclick="openLightbox('${img}')">`;
                             });
                         }
                         
@@ -474,7 +500,7 @@
                 alert("시공사례가 정상 등록되었습니다. 페이지가 새로고침되며 홈으로 이동합니다."); 
                 closeUploadModal();
                 document.getElementById('card-title').value = ''; document.getElementById('card-desc').value = ''; fileInput.value = '';
-                location.reload(); // 업로드 성공 후 즉시 자동 새로고침(권한 해제 및 메인 복귀)
+                location.reload();
             });
         }
 
@@ -483,7 +509,7 @@
             if (confirm("이 시공사례를 정말 삭제하시겠습니까?")) {
                 database.ref('portfolio/' + key).remove().then(() => {
                     alert("삭제되었습니다.");
-                    location.reload(); // 삭제 완료 후에도 자동 새로고침 처리하여 잠금 유지
+                    location.reload();
                 });
             }
         }
@@ -531,7 +557,7 @@
                 kakaoUrl: document.getElementById('input-kakao-url').value
             }).then(() => {
                 alert("서버 설정 업데이트 완료! 안전을 위해 페이지가 새로고침됩니다.");
-                location.reload(); // 설정 수정 완료 후 즉시 자동 새로고침(권한 해제 및 메인 복귀)
+                location.reload();
             });
         }
 
@@ -558,7 +584,7 @@
         
         function closeAdmin() { 
             document.getElementById('admin-panel').classList.add('hidden'); 
-            location.reload(); // 관리자 창을 수동으로 닫을 때도 확실한 권한 잠금을 위해 새로고침 처리
+            location.reload();
         }
         function openUploadModal() { document.getElementById('upload-modal').classList.remove('hidden'); }
         function closeUploadModal() { document.getElementById('upload-modal').classList.add('hidden'); }
